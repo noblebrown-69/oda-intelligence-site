@@ -1,0 +1,14 @@
+
+.oda-chat { width: min(44rem, 100%); margin: 3rem auto 5rem; padding: 0 1.5rem; color: #e8e4dc; }
+.oda-chat h1 { font-family: "Cormorant Garamond", Georgia, serif; font-size: 2.6rem; color: #c9a227; }
+.oda-chat-log { min-height: 16rem; border: 1px solid rgba(201,162,39,0.28); padding: 1rem; margin-bottom: 1rem; background: #0b0b0c; }
+.oda-chat-log .row { margin: 0 0 1rem; }
+.oda-chat-log .who { color: #c9a227; font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; }
+.oda-chat-log .body { color: #b7b0a4; white-space: pre-wrap; }
+.oda-chat-log .pending { font-style: italic; color: #7d776c; }
+#oda-chat-form { display: grid; gap: 0.7rem; }
+#oda-chat-text { min-height: 6rem; background: #0b0b0c; color: #e8e4dc; border: 1px solid rgba(201,162,39,0.28); padding: 0.8rem; font: inherit; }
+#oda-chat-form button { justify-self: start; background: #c9a227; color: #14110a; border: 0; padding: 0.65rem 1.1rem; letter-spacing: 0.08em; text-transform: uppercase; font-size: 0.72rem; }
+.oda-chat .login-username, .oda-chat .login-password { display: block; margin: 0.6rem 0; }
+.oda-chat input[type=text], .oda-chat input[type=password] { background: #0b0b0c; color: #e8e4dc; border: 1px solid rgba(201,162,39,0.28); padding: 0.4rem 0.6rem; }
+.oda-chat-note { font-size: 0.85rem; color: #7d776c; margin: 0 0 0.9rem; }

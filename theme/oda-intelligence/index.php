@@ -1,0 +1,1 @@
+<?php get_header(); ?><main class="band"><p>Nothing here.</p></main><?php get_footer();

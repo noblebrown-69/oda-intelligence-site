@@ -1,0 +1,8 @@
+[Unit]
+Description=Oda guest-chat poller (Hermes profile webdemo)
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 %h/.hermes/scripts/oda-guestchat-poller.py
+Nice=10

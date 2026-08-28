@@ -1,0 +1,7 @@
+*.env
+!aegis/env.example
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+*.zip
+*~
