@@ -2,7 +2,7 @@
 
 ![Oda Intelligence](screenshot.png)
 
-A local private app, shown on the public web. The WordPress site is a dark gold brochure and a login-gated chat. The [Hermes](https://github.com/NousResearch/hermes-agent) box is the brain. The website never reaches it.
+A local private app, shown on the public web. WordPress is the front door. The [Hermes](https://github.com/NousResearch/hermes-agent) agent host phones home. The website never reaches it.
 
 Live: [odaintelligence.com](https://odaintelligence.com)
 
@@ -19,7 +19,7 @@ No security sticker. Guardrails live in the poller and a tool-less Hermes profil
 
 ## How it actually talks
 
-WordPress never dials the harness, Tailscale, or llama. A timer on the Hermes box phones home.
+Not an iframe. Not Open WebUI. Not a live WebSocket to the model. The browser talks only to WordPress REST on the same site. A oneshot poller on the agent host pulls the inbox and posts replies.
 
 ```
 browser
@@ -30,7 +30,7 @@ browser
             /inbox    /reply    = poller capability only
        optional wp_mail to a siloed mailbox
 
-Hermes box
+agent host
   poller (~60s)
     IMAP on that mailbox (password never stored in WordPress)
     GET inbox / POST reply
@@ -76,7 +76,7 @@ Humans are Subscribers. The poller is a dedicated user with the `oda_poller` rol
 
 No X / Twitter links.
 
-## Hermes box
+## Agent host
 
 Copy `aegis/oda-guestchat-poller.py` and `aegis/oda_chatlog.py` next to each other (the poller imports the archive helper). Point the user unit at the poller. Enable the timer.
 
