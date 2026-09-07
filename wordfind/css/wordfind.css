@@ -1,0 +1,204 @@
+/* Oda Intelligence — Word Find (unlisted) */
+:root {
+  --bg: #070708;
+  --gold: #c9a227;
+  --crimson: #9a1c1c;
+  --ink: #e8e4dc;
+  --ink-dim: #a8a49c;
+  --cell: #121214;
+  --cell-found: #1a3a1a;
+  --cell-sel: #3a2a10;
+  --border: #2a2a2e;
+  --radius: 10px;
+  --font-display: "Cormorant Garamond", Georgia, serif;
+  --font-ui: "DM Sans", system-ui, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  min-height: 100%;
+}
+
+body {
+  padding: 1rem 1rem 3rem;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 1.25rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 1rem;
+}
+
+header h1 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.75rem, 5vw, 2.25rem);
+  color: var(--gold);
+  margin: 0 0 0.35rem;
+  letter-spacing: 0.02em;
+}
+
+header .date-line {
+  color: var(--ink-dim);
+  font-size: 0.95rem;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin: 1rem 0 1.25rem;
+  flex-wrap: wrap;
+}
+
+.nav button {
+  appearance: none;
+  border: 1px solid var(--gold);
+  background: transparent;
+  color: var(--gold);
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  padding: 0.55rem 1.1rem;
+  border-radius: var(--radius);
+  cursor: pointer;
+  min-width: 6.5rem;
+  min-height: 2.75rem;
+}
+
+.nav button:hover:not(:disabled) {
+  background: var(--gold);
+  color: var(--bg);
+}
+
+.nav button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.nav .puzzle-label {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  color: var(--ink);
+  min-width: 7rem;
+  text-align: center;
+}
+
+.status {
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 1.05rem;
+  color: var(--ink-dim);
+}
+
+.status.done {
+  color: var(--gold);
+  font-weight: 600;
+}
+
+.board-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 0 auto 1.5rem;
+  display: flex;
+  justify-content: center;
+}
+
+.board {
+  display: grid;
+  gap: 3px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+}
+
+.cell {
+  width: clamp(1.65rem, 6.2vw, 2.35rem);
+  height: clamp(1.65rem, 6.2vw, 2.35rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--cell);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-family: var(--font-ui);
+  font-weight: 700;
+  font-size: clamp(1rem, 3.8vw, 1.35rem);
+  letter-spacing: 0;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.cell.sel { background: var(--cell-sel); color: var(--gold); border-color: var(--gold); }
+.cell.found { background: var(--cell-found); color: #c8e8c8; border-color: #2a5a2a; }
+.cell.sel.found { background: #2a4a1a; }
+
+.word-list-section h2 {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  color: var(--gold);
+  margin: 0 0 0.75rem;
+  text-align: center;
+  font-weight: 600;
+}
+
+.word-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.75rem;
+  justify-content: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.word-list li {
+  font-size: clamp(1rem, 3.5vw, 1.15rem);
+  padding: 0.35rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--ink);
+  background: var(--cell);
+  letter-spacing: 0.04em;
+}
+
+.word-list li.found {
+  text-decoration: line-through;
+  color: var(--ink-dim);
+  border-color: #2a5a2a;
+  background: var(--cell-found);
+}
+
+.hint {
+  text-align: center;
+  color: var(--ink-dim);
+  font-size: 0.9rem;
+  margin-top: 1.5rem;
+  line-height: 1.45;
+}
+
+.error {
+  text-align: center;
+  color: #e8a0a0;
+  padding: 2rem 1rem;
+}
+
+footer {
+  margin-top: 2.5rem;
+  text-align: center;
+  color: var(--ink-dim);
+  font-size: 0.8rem;
+  border-top: 1px solid var(--border);
+  padding-top: 1rem;
+}
+
+footer a { color: var(--gold); text-decoration: none; }

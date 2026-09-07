@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Word Find — Oda Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=DM+Sans:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/wordfind.css">
+</head>
+<body>
+  <header>
+    <h1>Word Find</h1>
+    <p class="date-line" id="date-line">Loading…</p>
+  </header>
+
+  <p class="error" id="error" hidden></p>
+
+  <main id="main">
+    <nav class="nav" aria-label="Puzzle navigation">
+      <button type="button" id="btn-prev" aria-label="Previous puzzle">← Prev</button>
+      <span class="puzzle-label" id="puzzle-label">Puzzle 1 of 5</span>
+      <button type="button" id="btn-next" aria-label="Next puzzle">Next →</button>
+    </nav>
+
+    <p class="status" id="status" aria-live="polite"></p>
+
+    <div class="board-wrap">
+      <div class="board" id="board" role="grid" aria-label="Word search grid"></div>
+    </div>
+
+    <section class="word-list-section" aria-label="Words to find">
+      <h2>Find these words</h2>
+      <ul class="word-list" id="word-list"></ul>
+    </section>
+
+    <p class="hint">
+      Drag across letters in a straight line (including diagonals).
+      Progress is saved on this device for today’s puzzles.
+    </p>
+  </main>
+
+  <footer>
+    <p>Unlisted page · <a href="https://odaintelligence.com/">Oda Intelligence</a></p>
+  </footer>
+
+  <script src="js/wordfind.js"></script>
+</body>
+</html>

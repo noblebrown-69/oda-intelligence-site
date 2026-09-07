@@ -99,6 +99,60 @@ Rate: 8 user messages / 10 minutes. Max 2000 characters.
 
 Fitness logger, production Oda SOUL, llama, Open WebUI, mailbox passwords.
 
+## Word Find (unlisted)
+
+Static daily word-search puzzles for an easy older-reader experience. Not linked from the brochure home.
+
+- Live path: [https://odaintelligence.com/wordfind/](https://odaintelligence.com/wordfind/)
+- Five puzzles per America/Phoenix calendar day
+- Generator is deterministic Python with a baked-in dictionary — no LLM
+
+### Layout
+
+```
+tools/wordfind/
+  generate.py       # builds puzzles + static player assets
+  dictionary.txt    # public word list (committed)
+wordfind/
+  index.html        # player (noindex)
+  css/wordfind.css
+  js/wordfind.js
+  robots.txt        # Disallow: /
+  data/YYYY-MM-DD.json
+  data/today.json   # copy of Phoenix "today" when generated
+```
+
+### Build / regenerate
+
+From the repo root:
+
+```bash
+python3 tools/wordfind/generate.py              # Phoenix today
+python3 tools/wordfind/generate.py 2026-09-07   # specific date
+python3 tools/wordfind/generate.py 2026-09-07 --days 7
+```
+
+### Deploy
+
+Zip or rsync the `wordfind/` folder to the WordPress **web root** so the URL is `/wordfind/` (same level as the WP install public files, not inside the theme). Example:
+
+```bash
+rsync -av --delete wordfind/ user@host:/var/www/odaintelligence.com/wordfind/
+# or: zip -r wordfind.zip wordfind && scp wordfind.zip …
+```
+
+Do not drop it inside `theme/` or `plugin/`. Theme and chat stay untouched.
+
+### Hermes / Turing daily cron (one-liner)
+
+Phoenix midnight-ish refresh on the agent host (adjust checkout path):
+
+```bash
+0 0 * * * cd /home/franklin/Dropbox/Development/oda-intelligence-site && python3 tools/wordfind/generate.py && rsync -av --delete wordfind/ /var/www/odaintelligence.com/wordfind/
+```
+
+If deploy is manual, keep the generate step on cron and rsync when ready.
+
 ## License
 
 Source is here so other Hermes people can run the same idea: a public face that cannot see the box, and a box that pulls the queue. Keep your accounts and your IPs off the internet.
