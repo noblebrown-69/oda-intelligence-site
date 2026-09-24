@@ -26,7 +26,7 @@ function oda_assets() {
         'oda-site',
         get_template_directory_uri() . '/assets/site.css',
         ['oda-fonts'],
-        '1.0.3'
+        '1.0.5'
     );
 }
 add_action('wp_enqueue_scripts', 'oda_assets');
@@ -81,3 +81,39 @@ add_action('after_switch_theme', 'oda_ensure_pages');
 function oda_asset($file) {
     return esc_url(get_template_directory_uri() . '/assets/' . $file);
 }
+
+/* ODA_PORTFOLIO_PAGES_v1 (2026-09-24): ensure portfolio pages exist with their templates. Runs once per version. */
+function oda_ensure_portfolio_pages() {
+    if (get_option('oda_portfolio_pages_v') === '1') return;
+    $pages = [
+        'governance' => ['Governance', 'page-governance.php'],
+        'incidents'  => ['Incidents',  'page-incidents.php'],
+        'redteam'    => ['Red Team',   'page-redteam.php'],
+    ];
+    foreach ($pages as $slug => $info) {
+        $page = get_page_by_path($slug);
+        $id = $page ? $page->ID : wp_insert_post([
+            'post_title'   => $info[0],
+            'post_name'    => $slug,
+            'post_status'  => 'publish',
+            'post_type'    => 'page',
+            'post_content' => '',
+        ]);
+        if ($id && !is_wp_error($id)) {
+            update_post_meta($id, '_wp_page_template', $info[1]);
+        }
+    }
+    update_option('oda_portfolio_pages_v', '1');
+}
+add_action('init', 'oda_ensure_portfolio_pages', 20);
+
+/* ODA_PORTFOLIO_PAGES_v2 (2026-09-24): Noble removed the About page. Unpublish it once. */
+function oda_remove_about_page() {
+    if (get_option('oda_about_removed_v') === '1') return;
+    $page = get_page_by_path('about');
+    if ($page && $page->post_status !== 'draft') {
+        wp_update_post(['ID' => $page->ID, 'post_status' => 'draft']);
+    }
+    update_option('oda_about_removed_v', '1');
+}
+add_action('init', 'oda_remove_about_page', 21);
