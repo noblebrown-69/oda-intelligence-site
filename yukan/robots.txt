@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /yukan/
+Allow: /yukan

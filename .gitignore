@@ -5,3 +5,8 @@
 *.sqlite-wal
 *.zip
 *~
+
+# backups and generated media
+*.bak
+*.bak-*
+yukan/assets/hero-*.jpg

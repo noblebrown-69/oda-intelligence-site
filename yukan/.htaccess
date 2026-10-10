@@ -1,0 +1,11 @@
+DirectoryIndex index.php index.html
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /yukan/
+  # Bare directory → PHP with cache-buster query (proxy cache key differs from stale /yukan/)
+  RewriteRule ^$ index.php?nocache=1 [L,QSA]
+</IfModule>
+<IfModule mod_headers.c>
+  Header set Cache-Control "no-cache, no-store, must-revalidate"
+  Header set Pragma "no-cache"
+</IfModule>
