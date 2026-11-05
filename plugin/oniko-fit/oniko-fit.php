@@ -2,14 +2,14 @@
 /**
  * Plugin Name: Oniko Fit
  * Description: Members-only novice workout logger (Gym 5x5 and Home 3x8-12). Data stays in WordPress; an Aegis poller pulls completed workouts. The site never dials out except optional wp_mail.
- * Version: 1.0.1
+ * Version: 1.0.2
  * Author: Oda Intelligence
  * Requires PHP: 7.4
  */
 
 if (!defined('ABSPATH')) exit;
 
-define('ONIKO_FIT_VERSION', '1.0.1');
+define('ONIKO_FIT_VERSION', '1.0.2');
 define('ONIKO_FIT_FILE', __FILE__);
 define('ONIKO_FIT_DIR', __DIR__);
 define('ONIKO_FIT_NS', 'oniko-fit/v1');

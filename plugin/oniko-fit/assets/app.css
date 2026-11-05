@@ -58,7 +58,8 @@ body.oniko-fit-page{background:#0b0709}
 .oniko .rec.ready,.oniko .banner.ready{background:rgba(225,29,46,.14);border:1px solid #ff3b4a;box-shadow:0 0 10px rgba(225,29,46,.35)}
 .oniko .rec.ready .tag{color:#ff6b78;text-shadow:0 0 6px rgba(225,29,46,.8)}
 .oniko .banner{padding:12px 14px;border-radius:12px;border:1px solid rgba(94,200,255,.35);background:rgba(94,200,255,.08);margin:12px 0;font-weight:600}
-.oniko .media{width:100%;border-radius:10px;margin:.4rem 0;display:block}
+.oniko .media{width:100%;max-width:100%;height:auto;border-radius:10px;margin:.4rem 0;display:block}
+.oniko .media.card-art,.oniko .media.diagram{object-fit:contain;border:1px solid rgba(225,29,46,.45);box-shadow:0 0 0 1px #000,0 6px 18px rgba(225,29,46,.18);background:#0b0b0d}
 .oniko .media.placeholder{aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;border:1px dashed var(--line);color:var(--muted);font-family:var(--head);letter-spacing:.14em;text-transform:uppercase;background:repeating-linear-gradient(45deg,rgba(225,29,46,.04) 0 10px,transparent 10px 20px)}
 .oniko .feel{color:#ffd2d6;font-weight:600}
 .oniko .safety{color:var(--muted);font-size:.9rem;border-top:1px solid var(--line);padding-top:.5rem;margin-top:.7rem}

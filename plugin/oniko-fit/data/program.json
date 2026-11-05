@@ -102,7 +102,7 @@
     },
     "goblet_squat": {
       "name": "Goblet Squat", "kind": "load", "unit": "lb", "step": "db", "group": "legs",
-      "author": "coach", "media_url": "", "video_url": "",
+      "author": "coach", "media_url": "assets/img/cards/goblet-squat.jpg", "media_ratio": "675/900", "diagram_url": "assets/img/diagrams/goblet-squat.jpg", "diagram_ratio": "900/675", "video_url": "",
       "setup": "Feet shoulder width, toes slightly out. Hold the weight at your chest with elbows in. A dumbbell, a loaded backpack or a water jug all work.",
       "steps": ["Sit down between your hips. Chest up.", "Knees track over your toes.", "Go as deep as you can with your heels flat.", "Push the floor away to stand up."],
       "feel": "Thighs and glutes.",
@@ -116,7 +116,7 @@
     },
     "pushup": {
       "name": "Push-Up", "kind": "level", "unit": "level", "group": "push",
-      "author": "coach", "media_url": "", "video_url": "",
+      "author": "coach", "media_url": "assets/img/cards/push-up.jpg", "media_ratio": "900/675", "diagram_url": "assets/img/diagrams/push-up.jpg", "diagram_ratio": "900/675", "video_url": "",
       "setup": "Hands just wider than your shoulders. Body in a straight line from head to knees or heels. Tighten your belly. Start with your hands on a counter or a sturdy table, that is the easiest.",
       "steps": ["Lower your chest to the surface in about 2 seconds.", "Keep your elbows at about 45 degrees, not flared out.", "Press back up to straight arms.", "Get stronger by lowering the surface: counter, then stairs, then knees, then the floor."],
       "feel": "Chest, front of shoulders, and triceps.",
@@ -127,7 +127,7 @@
     },
     "db_row": {
       "name": "One-Arm Dumbbell Row", "kind": "load", "unit": "lb per hand", "step": "db", "group": "pull",
-      "author": "coach", "media_url": "", "video_url": "",
+      "author": "coach", "media_url": "assets/img/cards/db-row.jpg", "media_ratio": "900/675", "diagram_url": "assets/img/diagrams/db-row.jpg", "diagram_ratio": "900/675", "video_url": "",
       "setup": "One hand on a chair or counter. Flat back. Weight in the other hand, arm long. Do your weaker side first, then match the reps on the other side. Log the reps from your weaker side.",
       "steps": ["Pull your elbow toward your hip.", "Squeeze your shoulder blade at the top for 1 second.", "Lower slowly until your arm is long.", "Switch sides: the other side gets the same reps and the same weight."],
       "feel": "Mid-back and lats (the sides of your back), not your neck.",
@@ -138,7 +138,7 @@
     },
     "db_ohp": {
       "name": "Dumbbell Overhead Press", "kind": "load", "unit": "lb per hand", "step": "db", "group": "press",
-      "author": "coach", "media_url": "", "video_url": "",
+      "author": "coach", "media_url": "assets/img/cards/db-overhead-press.jpg", "media_ratio": "675/900", "diagram_url": "assets/img/diagrams/db-overhead-press.jpg", "diagram_ratio": "900/675", "video_url": "",
       "setup": "Seated or standing. Ribs down, glutes tight. Dumbbells at chin or ear level.",
       "steps": ["Press straight overhead, slightly in front of your ears, not behind.", "Lower back to chin or ear level with control."],
       "feel": "Shoulders and triceps.",
@@ -149,7 +149,7 @@
     },
     "db_rdl": {
       "name": "Dumbbell Romanian Deadlift", "kind": "load", "unit": "lb per hand", "step": "db", "group": "hinge",
-      "author": "coach", "media_url": "", "video_url": "",
+      "author": "coach", "media_url": "assets/img/cards/db-rdl.jpg", "media_ratio": "900/675", "diagram_url": "assets/img/diagrams/db-rdl.jpg", "diagram_ratio": "900/675", "video_url": "",
       "setup": "Feet hip width. Dumbbells in front of your thighs. Soft knees.",
       "steps": ["Push your hips straight back, like closing a car door with your butt.", "Let the dumbbells slide down your legs to mid-shin, or until you feel a good stretch in the back of your legs.", "Keep your back flat the whole time.", "Squeeze your glutes to stand back up."],
       "feel": "Back of your legs (hamstrings) and glutes.",
@@ -160,7 +160,7 @@
     },
     "band_pull_apart": {
       "name": "Band Pull-Apart (optional)", "kind": "load", "unit": "band", "step": "band", "group": "extra",
-      "author": "donald", "media_url": "", "video_url": "",
+      "author": "donald", "media_url": "assets/img/cards/band-pull-apart.jpg", "media_ratio": "675/900", "diagram_url": "assets/img/diagrams/band-pull-apart.jpg", "diagram_ratio": "900/675", "video_url": "",
       "setup": "Stand tall. Hold a light band in front of your chest, arms straight, hands shoulder width.",
       "steps": ["Pull the band apart by moving your hands out to the sides.", "Squeeze your shoulder blades together at the end for 1 second.", "Return slowly."],
       "feel": "Upper back and the back of your shoulders. Good for posture.",
@@ -171,7 +171,7 @@
     },
     "glute_bridge": {
       "name": "Dumbbell Glute Bridge (optional)", "kind": "load", "unit": "lb", "step": "db", "group": "extra",
-      "author": "donald", "media_url": "", "video_url": "",
+      "author": "donald", "media_url": "assets/img/cards/glute-bridge.jpg", "media_ratio": "900/675", "diagram_url": "assets/img/diagrams/glute-bridge.jpg", "diagram_ratio": "900/675", "video_url": "",
       "setup": "Lie on your back, knees bent, feet flat and hip width. Rest a dumbbell across your hips and hold it.",
       "steps": ["Ribs down: tighten your belly so your lower back stays flat.", "Press through your heels and lift your hips until your body is straight from knees to shoulders.", "Squeeze your glutes at the top for 1 second. Keep your ribs down, do not arch.", "Lower slowly."],
       "feel": "Glutes. A little in the back of your legs.",

@@ -20,6 +20,15 @@ self.addEventListener('fetch', function (e) {
   if (url.origin !== self.location.origin) return;
   if (url.pathname.indexOf('/wp-json/') !== -1 || url.search.indexOf('rest_route') !== -1 || url.pathname.indexOf('wp-login') !== -1 || url.pathname.indexOf('/wp-admin') !== -1) return;
   if (url.pathname.indexOf(ASSETS) !== 0) return; /* pages and everything else: network only */
+  if (url.pathname.indexOf(ASSETS + 'img/') === 0) { /* exercise images: cache-first, stored on first view */
+    e.respondWith(caches.match(req).then(function (hit) {
+      return hit || fetch(req).then(function (res) {
+        if (res && res.ok && res.type === 'basic') { var copy = res.clone(); caches.open(CACHE).then(function (c) { c.put(req, copy); }); }
+        return res;
+      });
+    }));
+    return;
+  }
   e.respondWith(caches.match(req, { ignoreSearch: true }).then(function (hit) {
     var net = fetch(req).then(function (res) {
       if (res && res.ok && res.type === 'basic') { var copy = res.clone(); caches.open(CACHE).then(function (c) { c.put(req, copy); }); }

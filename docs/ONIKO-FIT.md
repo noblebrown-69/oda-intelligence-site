@@ -9,7 +9,11 @@ Novice workout logger for Vanessa. Lives on odaintelligence.com behind a WordPre
 | A | Hammer V-Squat 5x5 · Hammer Iso-Lateral Bench Press 5x5 · Hammer Iso-Lateral Row 5x5 | Goblet Squat 3x8–12 · Push-Up 3x8–12 · One-Arm DB Row / Band Row 3x8–12 · optional Band Pull-Apart, DB Glute Bridge |
 | B | Hammer V-Squat 5x5 · Hammer Iso-Lateral Shoulder Press 5x5 · DB Straight-Leg Deadlift 1x5 (1x8 light option, first 4 weeks) | Goblet Squat 3x8–12 · DB Overhead Press 3x8–12 · DB Romanian Deadlift 2x10–12 |
 
-All program text, cues, start-weight guesses and media slots are in `plugin/oniko-fit/data/program.json`. Add a diagram by filling `media_url` (image URL, ideally uploaded to the WP media library on the same site) or `video_url` (link). Empty shows "Diagram coming soon".
+All program text, cues, start-weight guesses and media slots are in `plugin/oniko-fit/data/program.json`.
+
+**Images (1.0.2).** The 7 home exercises have an Oniko character card (`media_url`, shown at the top of "How to do it") and a plain form diagram (`diagram_url`, shown under "What you should feel"). Files live in `plugin/oniko-fit/assets/img/cards/` and `assets/img/diagrams/`, named by exercise: `goblet-squat`, `push-up`, `db-row`, `db-overhead-press`, `db-rdl`, `band-pull-apart`, `glute-bridge` (all `.jpg`). Paths starting with `assets/img/` are turned into the plugin URL by `includes/data.php` (with `?v=<version>`); a full URL also works. `media_ratio` / `diagram_ratio` (width/height) reserve space so nothing jumps. Gym exercises have no images and still show "Diagram coming soon". A missing or broken image hides itself.
+
+**Replace an image:** resize to max 900 px on the long edge, JPEG q80 (cards) or q85 (diagrams), keep it under 150 KB, overwrite the file with the same name, update the ratio if the shape changed, run `node tests/images.test.js`, bump `ONIKO_FIT_VERSION` (so the `?v=` and service-worker cache change), and upload. `video_url` is still an optional link.
 
 ## Progression (assets/engine.js, tested in tests/engine.test.js)
 

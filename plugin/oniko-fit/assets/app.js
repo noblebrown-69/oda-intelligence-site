@@ -149,10 +149,17 @@
     return s.reps + ' reps @ ' + E.fmt(s.weight) + ' ' + def.unit;
   }
 
+  function pic(url, ratio, cls, alt) {
+    if (!url) return null;
+    var img = h('img', { class: 'media ' + cls, src: url, alt: alt, loading: 'lazy', decoding: 'async' });
+    if (ratio) img.style.aspectRatio = ratio;
+    img.addEventListener('error', function () { img.style.display = 'none'; });
+    return img;
+  }
   function howTo(def) {
     var media = def.media_url
-      ? h('img', { class: 'media', src: def.media_url, alt: def.name + ' diagram', loading: 'lazy' })
-      : h('div', { class: 'media placeholder', text: 'Diagram coming soon' });
+      ? pic(def.media_url, def.media_ratio, 'card-art', def.name + ': exercise card')
+      : (def.diagram_url ? null : h('div', { class: 'media placeholder', text: 'Diagram coming soon' }));
     return h('details', { class: 'howto' }, [
       h('summary', { text: 'How to do it' }),
       media,
@@ -160,6 +167,8 @@
       h('h4', { text: 'Setup' }), h('p', { text: def.setup }),
       h('h4', { text: 'Do it' }), h('ol', {}, def.steps.map(function (s) { return h('li', { text: s }); })),
       h('h4', { text: 'What you should feel' }), h('p', { class: 'feel', text: def.feel }),
+      def.diagram_url ? h('h4', { text: 'Form diagram' }) : null,
+      pic(def.diagram_url, def.diagram_ratio, 'diagram', def.name + ': form diagram, start and end positions'),
       h('h4', { text: 'Common mistakes' }), h('ul', {}, def.mistakes.map(function (s) { return h('li', { text: s }); })),
       def.alternatives && def.alternatives.length ? h('h4', { text: 'Options' }) : null,
       def.alternatives && def.alternatives.length ? h('ul', { class: 'alts' }, def.alternatives.map(function (a) { return h('li', {}, [h('b', { text: a.name + ': ' }), a.cue]); })) : null,

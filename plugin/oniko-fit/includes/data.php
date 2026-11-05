@@ -7,6 +7,15 @@ function oniko_fit_program() {
         $raw = file_get_contents(ONIKO_FIT_DIR . '/data/program.json');
         $p = json_decode($raw, true);
         if (!is_array($p)) $p = ['programs' => [], 'exercises' => []];
+        if (!empty($p['exercises']) && is_array($p['exercises'])) {
+            foreach ($p['exercises'] as $k => $ex) {
+                foreach (['media_url', 'diagram_url'] as $f) {
+                    if (!empty($ex[$f]) && strpos($ex[$f], 'assets/img/') === 0) {
+                        $p['exercises'][$k][$f] = plugins_url($ex[$f], ONIKO_FIT_FILE) . '?v=' . ONIKO_FIT_VERSION;
+                    }
+                }
+            }
+        }
         $p = apply_filters('oniko_fit_program', $p);
     }
     return $p;
