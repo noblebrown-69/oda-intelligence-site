@@ -87,6 +87,7 @@
 
   function hitAll(sets, plan, reps) {
     var w = working(sets);
+    if (plan.scheme === '5x5') w = w.slice(0, plan.sets);
     if (w.length < plan.sets) return false;
     for (var i = 0; i < w.length; i++) if (num(w[i].reps) < reps) return false;
     return true;
@@ -163,9 +164,18 @@
         if (hitAll(exSessions[i].sets, plan, plan.max)) break;
         fails++;
       }
-      if (clean && effort !== 'Grind') {
-        out.ready = true; out.weight = nextLoad(def.step, w);
+      var nxt = clean ? nextLoad(def.step, w) : w;
+      var bigJump = clean && def.max_jump && w > 0 && nxt > w * (1 + def.max_jump) + 0.01;
+      /* Bill: never jump more than ~20%. At a big gap, hold and add a set of 2 first; jump once that extra set was done. */
+      var didExtra = working(last.sets).length > plan.sets;
+      if (clean && effort !== 'Grind' && bigJump && !didExtra) {
+        out.hold = true; out.weight = w; out.extra = 'Add 1 set of 2';
+        out.text = 'All reps were clean. The next dumbbell (' + fmt(nxt) + unit + ') is more than a 20% jump. If your gym has a size in between, use it. If not, stay at ' + fmt(w) + unit + ' and add 1 extra set of 2 reps before jumping.';
+      } else if (clean && effort !== 'Grind') {
+        out.ready = true; out.weight = nxt;
         out.text = 'All ' + (plan.sets * plan.max) + ' reps were clean. Ready for more weight: ' + fmt(out.weight) + unit + ', ' + plan.sets + ' x ' + plan.max + '.';
+        if (bigJump) out.text += ' You did your extra set of 2, so the jump is earned. If your gym has a size in between, use that instead.';
+        if (def.step_note) out.text += ' ' + def.step_note;
       } else if (fails >= 3) {
         out.drop = true; out.weight = dropLoad(def.step, w, 0.10);
         out.text = 'Three tough sessions in a row on this one. That happens. Drop to ' + fmt(out.weight) + unit + ' and build back up.';
@@ -181,6 +191,7 @@
       var prev = exSessions[exSessions.length - 2];
       var miss = missedBottom(last.sets, plan) && prev && missedBottom(prev.sets, plan) && topSet(prev.sets).weight === w;
       if (def.kind === 'level') {
+        ready = hitAll(last.sets, plan, plan.max);
         var lvl = Math.max(1, Math.round(w || 1));
         if (ready && lvl < levels.length) {
           out.ready = true; out.weight = lvl + 1; out.reps = plan.min;

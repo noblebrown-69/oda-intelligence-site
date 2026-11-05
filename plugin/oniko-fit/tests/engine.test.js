@@ -133,5 +133,40 @@ eq(P.programs.home.workouts.B[2].sets + 'x' + P.programs.home.workouts.B[2].min 
 ok(P.programs.home.workouts.A.slice(0, 3).every(function (x) { return x.sets === 3 && x.min === 8 && x.max === 12; }), 'home 3x8-12');
 eq(P.pushup_levels.length, 4, 'push-up ladder');
 
+// --- Bill review (2026-11-04)
+var IB = P.exercises.iso_bench, IS = P.exercises.iso_shoulder, IR = P.exercises.iso_row, SL = P.exercises.db_sldl;
+eq([IB.step, IS.step, V.step, IR.step], [2.5, 2.5, 5, 5], 'press steps 2.5/side, squat+row 5/side');
+var fiveX = function (ex, w, n) { return S(ex, (n || [5, 5, 5, 5, 5]).map(function (x) { return [x, w]; })); };
+r = E.recommend(IB, gym, E.exHistory([sess('2026-11-02', fiveX('iso_bench', 10))], 'iso_bench'), ctx);
+ok(r.ready && r.weight === 12.5 && /2\.5 lb plates/.test(r.text) && /5 lb per side/.test(r.text), 'bench +2.5 with plate note and 5 fallback');
+r = E.recommend(IS, gym, E.exHistory([sess('2026-11-02', fiveX('iso_shoulder', 5))], 'iso_shoulder'), ctx);
+ok(r.ready && r.weight === 7.5, 'shoulder press +2.5');
+r = E.recommend(IR, gym, E.exHistory([sess('2026-11-02', fiveX('iso_row', 20))], 'iso_row'), ctx);
+ok(r.ready && r.weight === 25 && !/plates/.test(r.text), 'row stays +5, no note');
+var g1 = { sets: 1, min: 5, max: 5, scheme: '5x5' };
+r = E.recommend(SL, g1, E.exHistory([sess('2026-11-02', S('db_sldl', [[5, 17.5]]))], 'db_sldl'), ctx);
+ok(r.ready && r.weight === 20, 'sldl 17.5->20 ok (<=20%)');
+r = E.recommend(SL, g1, E.exHistory([sess('2026-11-02', S('db_sldl', [[5, 20]]))], 'db_sldl'), ctx);
+ok(r.hold && !r.ready && r.weight === 20 && /set of 2/.test(r.text), 'sldl 20->25 is >20%: hold, add a set of 2');
+r = E.recommend(SL, g1, E.exHistory([sess('2026-11-02', S('db_sldl', [[5, 20], [2, 20]]))], 'db_sldl'), ctx);
+ok(r.ready && r.weight === 25, 'after extra set of 2 -> jump earned, extra set not a miss');
+r = E.recommend(SL, g1, E.exHistory([sess('2026-11-02', S('db_sldl', [[5, 25]]))], 'db_sldl'), ctx);
+ok(r.ready && r.weight === 30, '25->30 is 20%: ok');
+ok(/weaker side first/.test(P.exercises.db_row.setup) && /Log the reps from your weaker side/.test(P.exercises.db_row.setup), 'db_row weaker side');
+ok(P.exercises.db_row.steps.some(function (x) { return /same reps and the same weight/.test(x); }), 'db_row other side same reps+weight');
+ok(/against a wall/.test(G.alternatives[0].cue) && /plop/.test(G.alternatives[0].cue), 'chair box squat wall cue');
+var BAND = /nicks or tears.*hinge side of a closed door.*snap path/;
+ok(BAND.test(G.alternatives[1].cue), 'band squat safety');
+ok(BAND.test(P.exercises.db_row.alternatives[0].cue) && /door anchor at about chest height/.test(P.exercises.db_row.alternatives[0].cue), 'band row safety + anchor height');
+ok(BAND.test(P.exercises.db_ohp.alternatives[0].cue), 'band press safety');
+ok(BAND.test(P.exercises.band_pull_apart.safety), 'pull-apart safety');
+ok(P.exercises.glute_bridge.steps.join(' ').match(/ribs down/i), 'glute bridge ribs down');
+r = E.recommend(PU, home, E.exHistory([sess('2026-11-02', S('pushup', [[12, 1], [12, 1], [11, 1]]), { pushup: 'Easy' })], 'pushup'), ctx);
+ok(!r.ready && r.weight === 1 && r.reps === 12, 'push-up Easy + 11 does not change level; target capped at 12');
+r = E.recommend(G, home, E.exHistory([sess('2026-11-02', S('goblet_squat', [[8, 15], [8, 15], [8, 15]]), { goblet_squat: 'Easy' })], 'goblet_squat'), ctx);
+ok(!r.ready && r.weight === 15 && r.reps === 10, 'Easy at bottom (8) adds reps, not load');
+r = E.recommend(G, home, E.exHistory([sess('2026-11-02', S('goblet_squat', [[11, 15], [11, 15], [10, 15]]), { goblet_squat: 'Easy' })], 'goblet_squat'), ctx);
+ok(!r.ready && r.weight === 15 && r.reps === 12, 'Easy +2 reps capped at 12');
+
 console.log('engine tests: ' + pass + ' passed, ' + fail + ' failed');
 process.exit(fail ? 1 : 0);

@@ -57,7 +57,7 @@
       "start_guess": "Empty sled, or the bar plus about 10 lb per side."
     },
     "iso_bench": {
-      "name": "Hammer Iso-Lateral Bench Press", "kind": "load", "unit": "lb per side", "step": 5, "group": "push",
+      "name": "Hammer Iso-Lateral Bench Press", "kind": "load", "unit": "lb per side", "step": 2.5, "step_note": "If your gym has 2.5 lb plates, use them for presses. If not, add 5 lb per side instead.", "group": "push",
       "author": "coach", "media_url": "", "video_url": "",
       "setup": "Set the seat so the handles line up with the middle of your chest. Pull your shoulder blades back and down against the pad.",
       "steps": ["Grip the handles.", "Press out until your arms are nearly straight.", "Bring the handles back slowly, with control.", "Keep your shoulder blades pinned back the whole time."],
@@ -79,7 +79,7 @@
       "start_guess": "10 to 20 lb per side."
     },
     "iso_shoulder": {
-      "name": "Hammer Iso-Lateral Shoulder Press", "kind": "load", "unit": "lb per side", "step": 5, "group": "press",
+      "name": "Hammer Iso-Lateral Shoulder Press", "kind": "load", "unit": "lb per side", "step": 2.5, "step_note": "If your gym has 2.5 lb plates, use them for presses. If not, add 5 lb per side instead.", "group": "press",
       "author": "coach", "media_url": "", "video_url": "",
       "setup": "Seat so the handles start about chin or ear level. Ribs down, glutes tight, back on the pad.",
       "steps": ["Press straight up, not forward.", "Stop just short of locking your elbows.", "Lower back to chin or ear level with control."],
@@ -90,7 +90,7 @@
       "start_guess": "5 to 10 lb per side."
     },
     "db_sldl": {
-      "name": "Dumbbell Straight-Leg Deadlift", "kind": "load", "unit": "lb per hand", "step": "db", "group": "hinge",
+      "name": "Dumbbell Straight-Leg Deadlift", "kind": "load", "unit": "lb per hand", "step": "db", "max_jump": 0.2, "group": "hinge",
       "author": "coach", "media_url": "", "video_url": "",
       "setup": "Feet hip width. Dumbbells in front of your thighs. Soft knees.",
       "steps": ["Push your hips straight back, like closing a car door with your butt.", "Let the dumbbells slide down your legs to mid-shin, or until you feel a good stretch in the back of your legs.", "Keep your back flat the whole time.", "Squeeze your glutes to stand back up."],
@@ -109,8 +109,8 @@
       "mistakes": ["Heels lifting", "Knees collapsing in", "Folding forward", "Bouncing at the bottom"],
       "safety": "Sharp pain, pain in a joint, or pain that lasts for days means skip this one today and flag it.",
       "alternatives": [
-        {"name": "Chair box squat (first 2 weeks)", "cue": "If depth or balance feels shaky, sit back to a chair, touch lightly, stand up. Same cues."},
-        {"name": "Band squat", "cue": "Stand on the band, hold the handles at your shoulders, elbows in. Squat with the same cues. Keep the band tight the whole time."}
+        {"name": "Chair box squat (first 2 weeks)", "cue": "If depth or balance feels shaky, sit back to a chair, touch lightly, stand up. Same cues. Put the chair against a wall so it can't slide. Touch lightly, don't plop down."},
+        {"name": "Band squat", "cue": "Stand on the band, hold the handles at your shoulders, elbows in. Squat with the same cues. Keep the band tight the whole time. Check the band for nicks or tears before each set. Anchor it on the hinge side of a closed door, or on a post, and stand clear of the snap path."}
       ],
       "start_guess": "10 to 15 lb."
     },
@@ -128,12 +128,12 @@
     "db_row": {
       "name": "One-Arm Dumbbell Row", "kind": "load", "unit": "lb per hand", "step": "db", "group": "pull",
       "author": "coach", "media_url": "", "video_url": "",
-      "setup": "One hand on a chair or counter. Flat back. Weight in the other hand, arm long. Do all reps on one side, then switch. Log the reps for one side.",
-      "steps": ["Pull your elbow toward your hip.", "Squeeze your shoulder blade at the top for 1 second.", "Lower slowly until your arm is long."],
+      "setup": "One hand on a chair or counter. Flat back. Weight in the other hand, arm long. Do your weaker side first, then match the reps on the other side. Log the reps from your weaker side.",
+      "steps": ["Pull your elbow toward your hip.", "Squeeze your shoulder blade at the top for 1 second.", "Lower slowly until your arm is long.", "Switch sides: the other side gets the same reps and the same weight."],
       "feel": "Mid-back and lats (the sides of your back), not your neck.",
       "mistakes": ["Yanking with the arm", "Twisting your torso", "Shrugging your shoulder up", "Rounding your back"],
       "safety": "Sharp pain, pain in a joint, or pain that lasts for days means skip this one today and flag it.",
-      "alternatives": [{"name": "Band row", "cue": "Anchor the band at a door or around a post. Stand tall, arms long, pull your elbows back to your sides, squeeze your shoulder blades for 1 second, return slowly."}],
+      "alternatives": [{"name": "Band row", "cue": "Use a door anchor at about chest height, or loop the band around a post. Stand tall, arms long, pull your elbows back to your sides, squeeze your shoulder blades for 1 second, return slowly. Check the band for nicks or tears before each set. Anchor it on the hinge side of a closed door, or on a post, and stand clear of the snap path."}],
       "start_guess": "8 to 12 lb per hand."
     },
     "db_ohp": {
@@ -144,7 +144,7 @@
       "feel": "Shoulders and triceps.",
       "mistakes": ["Arching your lower back", "Flaring your elbows too wide", "Pressing forward instead of up"],
       "safety": "Sharp pain, pain in a joint, or pain that lasts for days means skip this one today and flag it.",
-      "alternatives": [{"name": "Band press", "cue": "Stand on the band, handles at your shoulders. Ribs down, glutes tight, press straight up, lower slowly."}],
+      "alternatives": [{"name": "Band press", "cue": "Stand on the band, handles at your shoulders. Ribs down, glutes tight, press straight up, lower slowly. Check the band for nicks or tears before each set. Anchor it on the hinge side of a closed door, or on a post, and stand clear of the snap path."}],
       "start_guess": "5 to 8 lb per hand."
     },
     "db_rdl": {
@@ -165,7 +165,7 @@
       "steps": ["Pull the band apart by moving your hands out to the sides.", "Squeeze your shoulder blades together at the end for 1 second.", "Return slowly."],
       "feel": "Upper back and the back of your shoulders. Good for posture.",
       "mistakes": ["Shrugging your shoulders up", "Bending your elbows a lot", "Arching your lower back", "Letting the band snap back"],
-      "safety": "Use a light band. Sharp or joint pain means skip and flag it.",
+      "safety": "Use a light band. Check the band for nicks or tears before each set. Anchor it on the hinge side of a closed door, or on a post, and stand clear of the snap path. Sharp or joint pain means skip and flag it.",
       "alternatives": [],
       "start_guess": "Lightest band. Log weight as 0 or the band color number."
     },
@@ -173,7 +173,7 @@
       "name": "Dumbbell Glute Bridge (optional)", "kind": "load", "unit": "lb", "step": "db", "group": "extra",
       "author": "donald", "media_url": "", "video_url": "",
       "setup": "Lie on your back, knees bent, feet flat and hip width. Rest a dumbbell across your hips and hold it.",
-      "steps": ["Press through your heels and lift your hips until your body is straight from knees to shoulders.", "Squeeze your glutes at the top for 1 second.", "Lower slowly."],
+      "steps": ["Ribs down: tighten your belly so your lower back stays flat.", "Press through your heels and lift your hips until your body is straight from knees to shoulders.", "Squeeze your glutes at the top for 1 second. Keep your ribs down, do not arch.", "Lower slowly."],
       "feel": "Glutes. A little in the back of your legs.",
       "mistakes": ["Arching your lower back at the top", "Pushing through your toes", "Knees falling in", "Rushing"],
       "safety": "Pad the weight with a towel. Sharp or joint pain means skip and flag it.",
