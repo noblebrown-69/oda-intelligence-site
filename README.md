@@ -61,6 +61,7 @@ Same brand as Oda Fit. Not a chatbot skin.
 ```
 theme/oda-intelligence/     WordPress theme 1.0.3
 plugin/oda-members-chat/    Members chat 1.0.1
+plugin/oniko-fit/           Oniko Fit novice logger 1.0.0 (see below)
 aegis/                      Poller, archive helper, systemd units, env.example
 ```
 
@@ -94,6 +95,21 @@ The `webdemo` profile has no tools. Do not give it the production Oda SOUL's pri
 | `POST /wp-json/oda-chat/v1/reply` | poller | `{ "id", "text" }` |
 
 Rate: 8 user messages / 10 minutes. Max 2000 characters.
+
+## Oniko Fit (members only, `/oniko/`)
+
+A novice workout logger for Vanessa on the same WordPress, same pattern as members chat: Subscribers by invite plus the `oniko_fit_use` capability, per-user `wp_oniko_*` tables, REST under `/wp-json/oniko-fit/v1/`, and a pull-only Aegis poller (`oniko_poller` role, `oniko_fit_poll` only). Black and blood-red Oniko theme, iPhone first, installable to the home screen. No CDN, fonts, analytics or outside calls; `noindex`.
+
+| | who | |
+|---|---|---|
+| `GET /day?date=` | member | own session, sets, history |
+| `POST /select /set /undo /effort /prefs` | member | own rows only |
+| `POST /complete` | member | marks done, queues the record, optional `wp_mail` to `oniko_fit_notify_emails` |
+| `GET /outbox` · `POST /ack` | poller | |
+
+Aegis: `aegis/oniko-fit-pull.py` + `oniko-fit-pull.{service,timer}` (every 5 min) + `oniko-fit-backup.{service,timer}` (nightly copy to `~/Dropbox/Oniko/backup/`). Archive `~/.local/share/oniko-fit/oniko-fit.db`. Secrets `~/.hermes/secrets/oniko-fit-wp.env` (names in `aegis/oniko-fit.env.example`).
+
+Docs: [docs/ONIKO-FIT.md](docs/ONIKO-FIT.md) (program, progression, data and privacy), [docs/DEPLOY.md](docs/DEPLOY.md), [docs/CONTENT-REVIEW.md](docs/CONTENT-REVIEW.md). Tests: `node plugin/oniko-fit/tests/engine.test.js`; `plugin/oniko-fit/tests/rest_e2e.py` against a throwaway local WordPress only.
 
 ## Out of scope
 

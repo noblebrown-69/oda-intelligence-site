@@ -1,0 +1,7 @@
+[Unit]
+Description=Oniko Fit: nightly copy of the archive into Dropbox
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 %h/.hermes/scripts/oniko-fit-pull.py --backup
+Nice=15

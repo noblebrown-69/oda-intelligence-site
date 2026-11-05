@@ -1,0 +1,195 @@
+{
+  "version": 1,
+  "programs": {
+    "gym": {
+      "label": "Gym",
+      "scheme": "5x5",
+      "blurb": "Machines at the gym. 5 sets of 5 reps. Add a little weight each time all 25 reps are clean.",
+      "rest": "Rest 2 to 3 minutes between sets. Take more if you need it.",
+      "length": "About 40 to 50 minutes.",
+      "workouts": {
+        "A": [
+          {"ex": "v_squat", "sets": 5, "min": 5, "max": 5},
+          {"ex": "iso_bench", "sets": 5, "min": 5, "max": 5},
+          {"ex": "iso_row", "sets": 5, "min": 5, "max": 5}
+        ],
+        "B": [
+          {"ex": "v_squat", "sets": 5, "min": 5, "max": 5},
+          {"ex": "iso_shoulder", "sets": 5, "min": 5, "max": 5},
+          {"ex": "db_sldl", "sets": 1, "min": 5, "max": 5, "learn": {"sets": 1, "min": 8, "max": 8, "weeks": 4,
+            "text": "First 4 weeks: you may do 1 set of 8 with light dumbbells instead, to learn the hinge. After week 4, do 1 set of 5."}}
+        ]
+      }
+    },
+    "home": {
+      "label": "Home",
+      "scheme": "double",
+      "blurb": "Light dumbbells, bands or water jugs. 3 sets of 8 to 12 reps. Stop each set with 1 to 3 reps still in the tank. The last 2 reps should feel like work, not a grind.",
+      "rest": "Rest 90 seconds to 2 minutes between sets (about 60 seconds for the deadlift and the extras).",
+      "length": "About 30 to 40 minutes.",
+      "workouts": {
+        "A": [
+          {"ex": "goblet_squat", "sets": 3, "min": 8, "max": 12},
+          {"ex": "pushup", "sets": 3, "min": 8, "max": 12},
+          {"ex": "db_row", "sets": 3, "min": 8, "max": 12},
+          {"ex": "band_pull_apart", "sets": 2, "min": 12, "max": 15, "optional": true},
+          {"ex": "glute_bridge", "sets": 2, "min": 10, "max": 15, "optional": true}
+        ],
+        "B": [
+          {"ex": "goblet_squat", "sets": 3, "min": 8, "max": 12},
+          {"ex": "db_ohp", "sets": 3, "min": 8, "max": 12},
+          {"ex": "db_rdl", "sets": 2, "min": 10, "max": 12}
+        ]
+      }
+    }
+  },
+  "pushup_levels": ["Counter (hands on kitchen counter)", "Stairs or low table", "Knees on the floor", "Full push-up on the floor"],
+  "exercises": {
+    "v_squat": {
+      "name": "Hammer V-Squat", "kind": "load", "unit": "lb per side", "step": 5, "group": "legs",
+      "author": "coach", "media_url": "", "video_url": "",
+      "setup": "Feet in the middle of the platform, shoulder width. Shoulders under the pads. Back flat on the pad.",
+      "steps": ["Unlock the machine and stand tall.", "Lower with control until your thighs are about parallel to the platform.", "Push through your whole foot to stand back up.", "Stop just short of locking your knees hard at the top."],
+      "feel": "Front of your thighs (quads) and your glutes.",
+      "mistakes": ["Feet too low on the platform", "Locking your knees hard at the top", "Lifting your hips off the pad", "Going too fast"],
+      "safety": "Sharp pain, pain in a joint, or pain that lasts for days means skip this one today and flag it.",
+      "alternatives": [{"name": "At home: Goblet Squat", "cue": "Hold one weight at your chest and sit down between your hips."}],
+      "start_guess": "Empty sled, or the bar plus about 10 lb per side."
+    },
+    "iso_bench": {
+      "name": "Hammer Iso-Lateral Bench Press", "kind": "load", "unit": "lb per side", "step": 5, "group": "push",
+      "author": "coach", "media_url": "", "video_url": "",
+      "setup": "Set the seat so the handles line up with the middle of your chest. Pull your shoulder blades back and down against the pad.",
+      "steps": ["Grip the handles.", "Press out until your arms are nearly straight.", "Bring the handles back slowly, with control.", "Keep your shoulder blades pinned back the whole time."],
+      "feel": "Chest and the back of your arms (triceps).",
+      "mistakes": ["Shoulders shrugging up", "Bouncing", "Arching off the seat", "Locking your elbows hard"],
+      "safety": "Sharp pain, pain in a joint, or pain that lasts for days means skip this one today and flag it.",
+      "alternatives": [{"name": "At home: Push-Up", "cue": "Hands on a counter, body straight, chest to the counter."}],
+      "start_guess": "10 to 20 lb per side."
+    },
+    "iso_row": {
+      "name": "Hammer Iso-Lateral Row", "kind": "load", "unit": "lb per side", "step": 5, "group": "pull",
+      "author": "coach", "media_url": "", "video_url": "",
+      "setup": "Sit with your chest against the pad. Grab the handles with arms long.",
+      "steps": ["Pull your elbows back past your body.", "Squeeze your shoulder blades together.", "Return slowly until your arms are long again."],
+      "feel": "Upper back.",
+      "mistakes": ["Pulling with your hands only", "Leaning back", "Rushing"],
+      "safety": "Sharp pain, pain in a joint, or pain that lasts for days means skip this one today and flag it.",
+      "alternatives": [{"name": "At home: One-Arm Dumbbell Row", "cue": "One hand on a chair, pull your elbow to your hip."}],
+      "start_guess": "10 to 20 lb per side."
+    },
+    "iso_shoulder": {
+      "name": "Hammer Iso-Lateral Shoulder Press", "kind": "load", "unit": "lb per side", "step": 5, "group": "press",
+      "author": "coach", "media_url": "", "video_url": "",
+      "setup": "Seat so the handles start about chin or ear level. Ribs down, glutes tight, back on the pad.",
+      "steps": ["Press straight up, not forward.", "Stop just short of locking your elbows.", "Lower back to chin or ear level with control."],
+      "feel": "Shoulders and triceps.",
+      "mistakes": ["Arching your lower back", "Flaring your elbows too wide", "Pressing forward instead of up"],
+      "safety": "Sharp pain, pain in a joint, or pain that lasts for days means skip this one today and flag it.",
+      "alternatives": [{"name": "At home: Dumbbell Overhead Press", "cue": "Ribs down, press straight overhead."}],
+      "start_guess": "5 to 10 lb per side."
+    },
+    "db_sldl": {
+      "name": "Dumbbell Straight-Leg Deadlift", "kind": "load", "unit": "lb per hand", "step": "db", "group": "hinge",
+      "author": "coach", "media_url": "", "video_url": "",
+      "setup": "Feet hip width. Dumbbells in front of your thighs. Soft knees.",
+      "steps": ["Push your hips straight back, like closing a car door with your butt.", "Let the dumbbells slide down your legs to mid-shin, or until you feel a good stretch in the back of your legs.", "Keep your back flat the whole time.", "Squeeze your glutes to stand back up."],
+      "feel": "Back of your legs (hamstrings) and glutes.",
+      "mistakes": ["Rounding your back", "Squatting it instead of hinging", "Dumbbells drifting forward away from your legs", "Going so low your back rounds"],
+      "safety": "Sharp pain, pain in a joint, or pain that lasts for days means skip this one today and flag it. Your lower back should never hurt.",
+      "alternatives": [{"name": "Band good-morning or pull-through", "cue": "Same hinge: band behind you or between your legs, hips back, flat back, squeeze glutes to stand."}],
+      "start_guess": "10 to 15 lb per hand."
+    },
+    "goblet_squat": {
+      "name": "Goblet Squat", "kind": "load", "unit": "lb", "step": "db", "group": "legs",
+      "author": "coach", "media_url": "", "video_url": "",
+      "setup": "Feet shoulder width, toes slightly out. Hold the weight at your chest with elbows in. A dumbbell, a loaded backpack or a water jug all work.",
+      "steps": ["Sit down between your hips. Chest up.", "Knees track over your toes.", "Go as deep as you can with your heels flat.", "Push the floor away to stand up."],
+      "feel": "Thighs and glutes.",
+      "mistakes": ["Heels lifting", "Knees collapsing in", "Folding forward", "Bouncing at the bottom"],
+      "safety": "Sharp pain, pain in a joint, or pain that lasts for days means skip this one today and flag it.",
+      "alternatives": [
+        {"name": "Chair box squat (first 2 weeks)", "cue": "If depth or balance feels shaky, sit back to a chair, touch lightly, stand up. Same cues."},
+        {"name": "Band squat", "cue": "Stand on the band, hold the handles at your shoulders, elbows in. Squat with the same cues. Keep the band tight the whole time."}
+      ],
+      "start_guess": "10 to 15 lb."
+    },
+    "pushup": {
+      "name": "Push-Up", "kind": "level", "unit": "level", "group": "push",
+      "author": "coach", "media_url": "", "video_url": "",
+      "setup": "Hands just wider than your shoulders. Body in a straight line from head to knees or heels. Tighten your belly. Start with your hands on a counter or a sturdy table, that is the easiest.",
+      "steps": ["Lower your chest to the surface in about 2 seconds.", "Keep your elbows at about 45 degrees, not flared out.", "Press back up to straight arms.", "Get stronger by lowering the surface: counter, then stairs, then knees, then the floor."],
+      "feel": "Chest, front of shoulders, and triceps.",
+      "mistakes": ["Sagging hips", "Flared elbows (keep about 45 degrees)", "Head dropping", "Partial reps"],
+      "safety": "Never push to failure on the floor. If the last reps get ugly, move up to a higher surface. Sharp or joint pain means skip and flag it.",
+      "alternatives": [{"name": "At the gym: Hammer Iso-Lateral Bench Press", "cue": "Handles at mid chest, shoulder blades back."}],
+      "start_guess": "Pick a surface high enough that 12 reps feel easy. Start at the counter."
+    },
+    "db_row": {
+      "name": "One-Arm Dumbbell Row", "kind": "load", "unit": "lb per hand", "step": "db", "group": "pull",
+      "author": "coach", "media_url": "", "video_url": "",
+      "setup": "One hand on a chair or counter. Flat back. Weight in the other hand, arm long. Do all reps on one side, then switch. Log the reps for one side.",
+      "steps": ["Pull your elbow toward your hip.", "Squeeze your shoulder blade at the top for 1 second.", "Lower slowly until your arm is long."],
+      "feel": "Mid-back and lats (the sides of your back), not your neck.",
+      "mistakes": ["Yanking with the arm", "Twisting your torso", "Shrugging your shoulder up", "Rounding your back"],
+      "safety": "Sharp pain, pain in a joint, or pain that lasts for days means skip this one today and flag it.",
+      "alternatives": [{"name": "Band row", "cue": "Anchor the band at a door or around a post. Stand tall, arms long, pull your elbows back to your sides, squeeze your shoulder blades for 1 second, return slowly."}],
+      "start_guess": "8 to 12 lb per hand."
+    },
+    "db_ohp": {
+      "name": "Dumbbell Overhead Press", "kind": "load", "unit": "lb per hand", "step": "db", "group": "press",
+      "author": "coach", "media_url": "", "video_url": "",
+      "setup": "Seated or standing. Ribs down, glutes tight. Dumbbells at chin or ear level.",
+      "steps": ["Press straight overhead, slightly in front of your ears, not behind.", "Lower back to chin or ear level with control."],
+      "feel": "Shoulders and triceps.",
+      "mistakes": ["Arching your lower back", "Flaring your elbows too wide", "Pressing forward instead of up"],
+      "safety": "Sharp pain, pain in a joint, or pain that lasts for days means skip this one today and flag it.",
+      "alternatives": [{"name": "Band press", "cue": "Stand on the band, handles at your shoulders. Ribs down, glutes tight, press straight up, lower slowly."}],
+      "start_guess": "5 to 8 lb per hand."
+    },
+    "db_rdl": {
+      "name": "Dumbbell Romanian Deadlift", "kind": "load", "unit": "lb per hand", "step": "db", "group": "hinge",
+      "author": "coach", "media_url": "", "video_url": "",
+      "setup": "Feet hip width. Dumbbells in front of your thighs. Soft knees.",
+      "steps": ["Push your hips straight back, like closing a car door with your butt.", "Let the dumbbells slide down your legs to mid-shin, or until you feel a good stretch in the back of your legs.", "Keep your back flat the whole time.", "Squeeze your glutes to stand back up."],
+      "feel": "Back of your legs (hamstrings) and glutes.",
+      "mistakes": ["Rounding your back", "Squatting it instead of hinging", "Dumbbells drifting forward", "Going so low your back rounds"],
+      "safety": "Sharp pain, pain in a joint, or pain that lasts for days means skip this one today and flag it. Your lower back should never hurt.",
+      "alternatives": [{"name": "Band good-morning or pull-through", "cue": "Same hinge cue with the band behind you or between your legs."}],
+      "start_guess": "10 to 15 lb per hand."
+    },
+    "band_pull_apart": {
+      "name": "Band Pull-Apart (optional)", "kind": "load", "unit": "band", "step": "band", "group": "extra",
+      "author": "donald", "media_url": "", "video_url": "",
+      "setup": "Stand tall. Hold a light band in front of your chest, arms straight, hands shoulder width.",
+      "steps": ["Pull the band apart by moving your hands out to the sides.", "Squeeze your shoulder blades together at the end for 1 second.", "Return slowly."],
+      "feel": "Upper back and the back of your shoulders. Good for posture.",
+      "mistakes": ["Shrugging your shoulders up", "Bending your elbows a lot", "Arching your lower back", "Letting the band snap back"],
+      "safety": "Use a light band. Sharp or joint pain means skip and flag it.",
+      "alternatives": [],
+      "start_guess": "Lightest band. Log weight as 0 or the band color number."
+    },
+    "glute_bridge": {
+      "name": "Dumbbell Glute Bridge (optional)", "kind": "load", "unit": "lb", "step": "db", "group": "extra",
+      "author": "donald", "media_url": "", "video_url": "",
+      "setup": "Lie on your back, knees bent, feet flat and hip width. Rest a dumbbell across your hips and hold it.",
+      "steps": ["Press through your heels and lift your hips until your body is straight from knees to shoulders.", "Squeeze your glutes at the top for 1 second.", "Lower slowly."],
+      "feel": "Glutes. A little in the back of your legs.",
+      "mistakes": ["Arching your lower back at the top", "Pushing through your toes", "Knees falling in", "Rushing"],
+      "safety": "Pad the weight with a towel. Sharp or joint pain means skip and flag it.",
+      "alternatives": [{"name": "No weight", "cue": "Do it with body weight only, same cues."}],
+      "start_guess": "Body weight first, then 10 to 15 lb."
+    }
+  },
+  "warmup": {
+    "title": "5-minute warm-up",
+    "steps": ["March in place, 1 minute.", "Arm circles, forward and back, 1 minute.", "Bodyweight squats, slow, 10 to 15 reps.", "One light set of your first exercise. Tap Warm-up when you log it."]
+  },
+  "start_guide": {
+    "title": "Find your start weight",
+    "text": "Your first session is a technique session. Pick a weight you can do 12 clean reps with and could do 4 more. That is your start weight. Do not test your max.",
+    "notes": ["First 2 weeks: go lighter than you think. Good form matters more than speed.", "Expect some soreness after week 1. That is normal and it fades.", "Week 1: if every rep feels easy, add a little weight next time."]
+  },
+  "schedule": "3 days a week, never 2 days in a row (for example Mon, Wed, Fri). Alternate A, B, A, then B, A, B the next week. 2 days a week is fine when life is busy.",
+  "safety": "Sharp pain, pain in a joint, or pain that lasts for days means skip that exercise and flag it. Stop any time something hurts sharply."
+}

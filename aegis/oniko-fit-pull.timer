@@ -1,0 +1,11 @@
+[Unit]
+Description=Pull Oniko Fit workouts every 5 minutes
+
+[Timer]
+OnBootSec=90
+OnUnitActiveSec=300
+AccuracySec=30
+Persistent=false
+
+[Install]
+WantedBy=timers.target

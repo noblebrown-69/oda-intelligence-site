@@ -1,0 +1,8 @@
+[Unit]
+Description=Oniko Fit: pull completed workouts from WordPress into the Aegis archive
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 %h/.hermes/scripts/oniko-fit-pull.py
+Nice=10
