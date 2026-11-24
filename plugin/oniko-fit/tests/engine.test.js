@@ -168,5 +168,14 @@ ok(!r.ready && r.weight === 15 && r.reps === 10, 'Easy at bottom (8) adds reps, 
 r = E.recommend(G, home, E.exHistory([sess('2026-11-02', S('goblet_squat', [[11, 15], [11, 15], [10, 15]]), { goblet_squat: 'Easy' })], 'goblet_squat'), ctx);
 ok(!r.ready && r.weight === 15 && r.reps === 12, 'Easy +2 reps capped at 12');
 
+// --- Arizona day (America/Phoenix, UTC-7, no DST)
+eq(E.azToday(new Date('2026-11-24T03:30:00Z')), '2026-11-23', '8:30 PM AZ session stays on the same day (not UTC 11/24)');
+eq(E.azToday(new Date('2026-11-24T03:23:12Z')), '2026-11-23', 'oniko-5 completed 8:23 PM AZ is 11/23');
+eq(E.azToday(new Date('2026-11-24T06:59:59Z')), '2026-11-23', '11:59:59 PM AZ still same day');
+eq(E.azToday(new Date('2026-11-24T07:00:00Z')), '2026-11-24', 'midnight AZ rolls over');
+eq(E.azToday(new Date('2026-11-24T21:40:15Z')), '2026-11-24', '2:40 PM AZ afternoon');
+eq(E.azToday(new Date('2026-07-01T03:30:00Z')), '2026-06-30', 'no DST: 8:30 PM AZ in summer stays same day');
+eq(E.azToday(Date.parse('2027-01-01T06:30:00Z')), '2026-12-31', 'year boundary, numeric input');
+
 console.log('engine tests: ' + pass + ' passed, ' + fail + ' failed');
 process.exit(fail ? 1 : 0);

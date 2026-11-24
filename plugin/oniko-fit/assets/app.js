@@ -6,8 +6,12 @@
   if (!CFG || !E || !root) return;
   var P = CFG.program, EX = P.exercises;
   var EFFORTS = ['Easy', 'Good', 'Hard', 'Grind'];
+  // Arizona "today" from this device's clock (not the UTC date);
+  // falls back to the server's Arizona date if the device clock is off by more than a day.
+  var TODAY = E.azToday();
+  if (!TODAY || Math.abs(E.daysBetween(CFG.today, TODAY)) > 1) TODAY = CFG.today;
   var qd = (location.search.match(/[?&]d=(\d{4}-\d{2}-\d{2})/) || [])[1];
-  var st = { date: (qd && qd <= CFG.today) ? qd : CFG.today, day: null, program: '', workout: '', busy: false, view: 'log', result: null, msg: '' };
+  var st = { date: (qd && qd <= TODAY) ? qd : TODAY, day: null, program: '', workout: '', busy: false, view: 'log', result: null, msg: '' };
 
   function h(tag, attrs, kids) {
     var el = document.createElement(tag);
@@ -253,11 +257,11 @@
   }
 
   function dateBar() {
-    var input = h('input', { type: 'date', value: st.date, max: CFG.today, 'aria-label': 'Workout date', onchange: function (e) { if (e.target.value) load(e.target.value); } });
+    var input = h('input', { type: 'date', value: st.date, max: TODAY, 'aria-label': 'Workout date', onchange: function (e) { if (e.target.value) load(e.target.value); } });
     return h('div', { class: 'datebar' }, [
       h('button', { class: 'btn ghost sq', type: 'button', 'aria-label': 'Previous day', onclick: function () { load(addDays(st.date, -1)); }, text: '‹' }),
-      h('div', { class: 'dwrap' }, [h('span', { class: 'dlabel', text: st.date === CFG.today ? 'Today · ' + niceDate(st.date) : niceDate(st.date) }), input]),
-      h('button', { class: 'btn ghost sq', type: 'button', 'aria-label': 'Next day', disabled: st.date >= CFG.today, onclick: function () { load(addDays(st.date, 1)); }, text: '›' })
+      h('div', { class: 'dwrap' }, [h('span', { class: 'dlabel', text: st.date === TODAY ? 'Today · ' + niceDate(st.date) : niceDate(st.date) }), input]),
+      h('button', { class: 'btn ghost sq', type: 'button', 'aria-label': 'Next day', disabled: st.date >= TODAY, onclick: function () { load(addDays(st.date, 1)); }, text: '›' })
     ]);
   }
 

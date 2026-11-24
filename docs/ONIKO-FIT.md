@@ -54,10 +54,15 @@ Manifest at `/?oniko_fit=manifest` (scope and start URL = the app page path). Se
 
 **iPhone:** open the page in Safari, sign in, tap Share → Add to Home Screen → Add. It opens full screen with the Oniko icon. If she is signed out it shows the sign-in wall; sign in once inside the app.
 
+## Dates
+
+A workout day is an Arizona day (America/Phoenix, UTC-7, no DST), on the server (`oniko_fit_today()` in includes/data.php) and in the app (`OnikoEngine.azToday()`), whatever the WordPress timezone setting is. Before 1.0.3 the day came from the site timezone (UTC), so a workout after 5 PM Arizona time was filed on the next day.
+
 ## Tests
 
 ```
-node plugin/oniko-fit/tests/engine.test.js        # progression + content data
+node plugin/oniko-fit/tests/engine.test.js        # progression + content data + Arizona day
+php plugin/oniko-fit/tests/today.test.php         # server Arizona day + date guard (no WordPress needed)
 python3 plugin/oniko-fit/tests/rest_e2e.py        # needs a throwaway local WordPress; see the header
 ```
 Screens (390×844): `docs/screens/01-login-wall.png` … `05-summary.png`.

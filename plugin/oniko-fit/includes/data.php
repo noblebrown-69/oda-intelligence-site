@@ -31,13 +31,22 @@ function oniko_fit_valid_date($d) {
     if (!checkdate((int) $m[2], (int) $m[3], (int) $m[1])) return false;
     $y = (int) $m[1];
     if ($y < 2020) return false;
-    // No logging more than 1 day in the future (site timezone).
-    $max = wp_date('Y-m-d', time() + DAY_IN_SECONDS);
+    // No logging more than 1 day in the future (Arizona time, not the site timezone).
+    $max = oniko_fit_today(time() + DAY_IN_SECONDS);
     return $d <= $max;
 }
 
-function oniko_fit_today() {
-    return wp_date('Y-m-d');
+/* Workout days are Arizona days (America/Phoenix, fixed UTC-7, no DST), whatever the
+   WordPress timezone setting is. A UTC "today" put evening workouts on the next day. */
+function oniko_fit_tz() {
+    static $tz = null;
+    if ($tz === null) $tz = new DateTimeZone('America/Phoenix');
+    return $tz;
+}
+
+function oniko_fit_today($ts = null) {
+    $d = new DateTimeImmutable('@' . (int) ($ts === null ? time() : $ts));
+    return $d->setTimezone(oniko_fit_tz())->format('Y-m-d');
 }
 
 function oniko_fit_notify_emails() {

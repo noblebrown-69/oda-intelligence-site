@@ -65,6 +65,21 @@
     return Math.round((db - da) / 86400000);
   }
 
+  /* Today's workout day in Arizona time (America/Phoenix, UTC-7, no DST), as YYYY-MM-DD.
+     Never use toISOString() for "today": that is the UTC date and rolls over at 5 PM in Arizona. */
+  var AZ_FMT = null;
+  function azToday(now) {
+    var t = now instanceof Date ? now : new Date(now === undefined ? Date.now() : now);
+    try {
+      if (!AZ_FMT) AZ_FMT = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Phoenix', year: 'numeric', month: '2-digit', day: '2-digit' });
+      var p = {};
+      AZ_FMT.formatToParts(t).forEach(function (x) { p[x.type] = x.value; });
+      if (p.year && p.month && p.day) return p.year + '-' + p.month + '-' + p.day;
+    } catch (e) { /* fall through */ }
+    var a = new Date(t.getTime() - 7 * 3600000); // Arizona never observes DST
+    return a.getUTCFullYear() + '-' + ('0' + (a.getUTCMonth() + 1)).slice(-2) + '-' + ('0' + a.getUTCDate()).slice(-2);
+  }
+
   /* Next workout letter: strict A/B alternation from the last completed session of this program. */
   function suggestWorkout(history, program) {
     var last = null;
@@ -271,7 +286,7 @@
 
   return {
     DB: DB, MICRO: MICRO, working: working, topSet: topSet, volume: volume, nextLoad: nextLoad, dropLoad: dropLoad,
-    daysBetween: daysBetween, suggestWorkout: suggestWorkout, exHistory: exHistory, phase: phase,
+    daysBetween: daysBetween, azToday: azToday, suggestWorkout: suggestWorkout, exHistory: exHistory, phase: phase,
     twoFailsInRow: twoFailsInRow, recommend: recommend, compare: compare, lastTimeLine: lastTimeLine, fmt: fmt
   };
 }));
