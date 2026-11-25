@@ -50,7 +50,9 @@ This is health-adjacent data (sets, reps, weights, effort, "low energy" and "joi
 
 ## PWA
 
-Manifest at `/?oniko_fit=manifest` (scope and start URL = the app page path). Service worker at `/?oniko_fit=sw` with `Service-Worker-Allowed` set to the page path; it caches only the plugin's CSS/JS/icons and never pages, `/wp-json/`, login or admin. Registered only over HTTPS. Icons are drawn in code (`assets/icons/icon-maskable.svg`, rasterised by `tools/oniko-icons.sh`).
+Manifest at `/?oniko_fit=manifest` (scope and start URL = the app page path). Service worker at `/?oniko_fit=sw` with `Service-Worker-Allowed` set to the page path; it caches only the plugin's CSS/JS/icons and never pages, `/wp-json/`, login or admin. Registered only over HTTPS. Since 1.0.4 the shell CSS/JS are cached under their exact `?ver=` URL, fetched with `cache: 'reload'` (the host sends `max-age=1 year`), matched exactly (no `ignoreSearch`), and only a 200 with the right content type is stored. Before that, the precache came out of the browser's year-long HTTP cache and was served for every `?ver=`, so 1.0.3's app.js ran with a cached 1.0.0 engine.js (no `azToday`) and hung on the Loading splash.
+
+Boot safety (1.0.4): the page carries `ONIKO_CFG.version` and an inline `onikoRecover()` (includes/front.php). app.js refuses an engine.js whose `OnikoEngine.VERSION` differs, and an inline guard after app.js catches a script that never started. First failure in a tab: unregister the Oniko Fit service worker, delete `oniko-fit-*` caches, reload once. Second failure: a message with the reason and a Reload button. Never a stuck Loading screen. Keep `VERSION` in assets/engine.js equal to `ONIKO_FIT_VERSION` (tests/boot.test.js checks). Icons are drawn in code (`assets/icons/icon-maskable.svg`, rasterised by `tools/oniko-icons.sh`).
 
 **iPhone:** open the page in Safari, sign in, tap Share → Add to Home Screen → Add. It opens full screen with the Oniko icon. If she is signed out it shows the sign-in wall; sign in once inside the app.
 
@@ -63,6 +65,8 @@ A workout day is an Arizona day (America/Phoenix, UTC-7, no DST), on the server 
 ```
 node plugin/oniko-fit/tests/engine.test.js        # progression + content data + Arizona day
 php plugin/oniko-fit/tests/today.test.php         # server Arizona day + date guard (no WordPress needed)
+node plugin/oniko-fit/tests/boot.test.js          # app boot never hangs: live-shaped history, stale engine, missing scripts, REST errors, SW cache rules
+node plugin/oniko-fit/tests/images.test.js        # exercise images exist and are small
 python3 plugin/oniko-fit/tests/rest_e2e.py        # needs a throwaway local WordPress; see the header
 ```
 Screens (390×844): `docs/screens/01-login-wall.png` … `05-summary.png`.

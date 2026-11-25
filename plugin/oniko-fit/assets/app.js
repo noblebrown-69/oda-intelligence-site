@@ -3,13 +3,26 @@
   'use strict';
   var CFG = window.ONIKO_CFG, E = window.OnikoEngine;
   var root = document.getElementById('oniko-app');
-  if (!CFG || !E || !root) return;
-  var P = CFG.program, EX = P.exercises;
+  if (!root) return;
+  function recover(why) {
+    if (typeof window.onikoRecover === 'function') { window.onikoRecover(why); return; }
+    root.textContent = '';
+    var p = document.createElement('p'); p.className = 'msg';
+    p.textContent = 'Oniko Fit could not start (' + String(why && why.message || why) + '). Reload the page.';
+    root.appendChild(p);
+  }
+  // Never start on a half-updated install: engine.js must be from this same release.
+  // (1.0.3 hung on Loading when a stale cached 1.0.0 engine.js had no azToday.)
+  if (!CFG || !CFG.program) { recover('settings did not load'); return; }
+  if (!E) { recover('engine.js did not load'); return; }
+  if (CFG.version && E.VERSION !== CFG.version) { recover('old app files (engine ' + (E.VERSION || 'pre-1.0.4') + ', page ' + CFG.version + ')'); return; }
+  var P = CFG.program, EX = P.exercises || {};
   var EFFORTS = ['Easy', 'Good', 'Hard', 'Grind'];
   // Arizona "today" from this device's clock (not the UTC date);
   // falls back to the server's Arizona date if the device clock is off by more than a day.
-  var TODAY = E.azToday();
-  if (!TODAY || Math.abs(E.daysBetween(CFG.today, TODAY)) > 1) TODAY = CFG.today;
+  var TODAY = null;
+  try { TODAY = E.azToday(); } catch (e) { TODAY = null; }
+  if (!TODAY || !/^\d{4}-\d{2}-\d{2}$/.test(TODAY) || Math.abs(E.daysBetween(CFG.today, TODAY)) > 1) TODAY = CFG.today;
   var qd = (location.search.match(/[?&]d=(\d{4}-\d{2}-\d{2})/) || [])[1];
   var st = { date: (qd && qd <= TODAY) ? qd : TODAY, day: null, program: '', workout: '', busy: false, view: 'log', result: null, msg: '' };
 
@@ -57,10 +70,15 @@
     st.date = date; st.busy = true; st.msg = '';
     return api('GET', 'day?date=' + encodeURIComponent(date)).then(function (d) {
       st.day = d; st.busy = false;
+      if (!d || typeof d !== 'object') throw new Error('The server sent an empty reply. Try again.');
+      if (!Array.isArray(d.history)) d.history = [];
       var s = d.session;
-      var prog = (s && s.program) || d.prefs.program || st.program || 'gym';
+      var prog = (s && s.program) || (d.prefs && d.prefs.program) || st.program || 'gym';
+      if (!P.programs[prog]) prog = P.programs.gym ? 'gym' : Object.keys(P.programs)[0];
       st.program = prog;
-      st.workout = (s && s.workout) || E.suggestWorkout(d.history, prog);
+      var w = (s && s.workout) || E.suggestWorkout(d.history, prog);
+      if (!P.programs[prog].workouts[w]) w = Object.keys(P.programs[prog].workouts)[0];
+      st.workout = w;
       st.view = (s && s.done) ? 'done' : 'log';
       st.result = null;
       render();
@@ -68,8 +86,19 @@
   }
   function fail(e) {
     st.busy = false;
+    e = e || {};
     st.msg = e.status === 401 || e.status === 403 ? 'Your sign-in expired. Reload the page and sign in again.' : (e.message || 'Something went wrong. Try again.');
-    render();
+    try { render(); } catch (e2) { plainError(e2); }
+  }
+  /* Last resort when render itself throws: a readable message, never a blank or stuck screen. */
+  function plainError(e) {
+    try { if (window.console) console.error('Oniko Fit:', e); } catch (x) {}
+    root.textContent = '';
+    var p = document.createElement('p'); p.className = 'msg'; p.setAttribute('role', 'alert');
+    p.textContent = 'Something went wrong showing this day (' + String(e && e.message || e).slice(0, 200) + '). Reload the page. If it keeps happening, tell Noble.';
+    var b = document.createElement('button'); b.type = 'button'; b.className = 'btn primary'; b.textContent = 'Reload';
+    b.addEventListener('click', function () { location.reload(); });
+    root.appendChild(p); root.appendChild(b);
   }
 
   function todaySets() { return (st.day && st.day.session && st.day.session.sets) || []; }
@@ -386,7 +415,11 @@
   if ('serviceWorker' in navigator && CFG.sw && location.protocol === 'https:') {
     navigator.serviceWorker.register(CFG.sw, { scope: CFG.scope }).catch(function () {});
   }
-  window.OnikoApp = { state: st, load: load, render: render };
-  render();
+  window.OnikoApp = { state: st, load: load, render: render, booted: false };
+  try {
+    render();
+  } catch (e) { recover(e); return; }
+  window.OnikoApp.booted = true;
+  try { sessionStorage.removeItem('oniko_fit_recover'); } catch (e) { /* private mode */ }
   load(st.date);
 })();

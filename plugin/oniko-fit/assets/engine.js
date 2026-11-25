@@ -5,6 +5,10 @@
 }(typeof self !== 'undefined' ? self : this, function () {
   'use strict';
 
+  /* Must equal ONIKO_FIT_VERSION in oniko-fit.php (tests check). The app refuses to run with an
+     engine from another release (a stale cached engine.js) and recovers instead. */
+  var VERSION = '1.0.4';
+
   var DB = [2, 3, 5, 8, 10, 12, 15, 17.5, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80];
   var MICRO = [
     'Add 1 more set (4 sets) at 12 reps',
@@ -285,7 +289,7 @@
   }
 
   return {
-    DB: DB, MICRO: MICRO, working: working, topSet: topSet, volume: volume, nextLoad: nextLoad, dropLoad: dropLoad,
+    VERSION: VERSION, DB: DB, MICRO: MICRO, working: working, topSet: topSet, volume: volume, nextLoad: nextLoad, dropLoad: dropLoad,
     daysBetween: daysBetween, azToday: azToday, suggestWorkout: suggestWorkout, exHistory: exHistory, phase: phase,
     twoFailsInRow: twoFailsInRow, recommend: recommend, compare: compare, lastTimeLine: lastTimeLine, fmt: fmt
   };

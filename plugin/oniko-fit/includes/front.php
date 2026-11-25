@@ -139,10 +139,60 @@ function oniko_fit_shortcode() {
         'scope' => wp_parse_url(get_permalink(), PHP_URL_PATH) ?: '/',
         'logout' => esc_url_raw(wp_logout_url(get_permalink())),
         'program' => oniko_fit_program(),
+        'version' => ONIKO_FIT_VERSION,
     ];
-    wp_add_inline_script('oniko-engine', 'window.ONIKO_CFG = ' . wp_json_encode($cfg, JSON_HEX_TAG | JSON_HEX_AMP | JSON_UNESCAPED_SLASHES) . ';', 'before');
+    wp_add_inline_script('oniko-engine', 'window.ONIKO_CFG = ' . wp_json_encode($cfg, JSON_HEX_TAG | JSON_HEX_AMP | JSON_UNESCAPED_SLASHES) . ";\n" . oniko_fit_recover_js(), 'before');
+    /* Runs even if app.js failed to load or threw: never leave her on the Loading splash. */
+    wp_add_inline_script('oniko-fit', 'if (!window.OnikoApp || !window.OnikoApp.booted) window.onikoRecover("the app script did not start");', 'after');
     return '<div class="oniko" id="oniko-app"><div class="oniko-boot">' . oniko_fit_mask_svg('oniko-mask big') . '<p>Loading…</p></div>'
         . '<noscript><p>Oniko Fit needs JavaScript turned on.</p></noscript></div>';
+}
+
+/* Boot recovery, inlined in the (never cached) page so it works even when a stale service-worker
+   cache serves old or broken app files. First failure in a tab: drop the Oniko Fit service worker
+   and its caches, then reload once. If it still fails: show the reason and a Reload button. */
+function oniko_fit_recover_js() {
+    return <<<'JS'
+window.onikoRecover = function (why) {
+  var K = 'oniko_fit_recover';
+  try { if (window.console) console.error('Oniko Fit could not start:', why); } catch (e) {}
+  var tried = false;
+  try { tried = !!sessionStorage.getItem(K); if (!tried) sessionStorage.setItem(K, String(Date.now())); } catch (e) { tried = true; }
+  if (!tried) {
+    var jobs = [];
+    try {
+      if (navigator.serviceWorker && navigator.serviceWorker.getRegistrations) {
+        jobs.push(navigator.serviceWorker.getRegistrations().then(function (rs) {
+          return Promise.all(rs.filter(function (r) {
+            var w = r.active || r.waiting || r.installing;
+            return w && String(w.scriptURL).indexOf('oniko_fit=sw') !== -1;
+          }).map(function (r) { return r.unregister(); }));
+        }));
+      }
+      if (window.caches && caches.keys) {
+        jobs.push(caches.keys().then(function (ks) {
+          return Promise.all(ks.filter(function (k) { return k.indexOf('oniko-fit-') === 0; }).map(function (k) { return caches.delete(k); }));
+        }));
+      }
+    } catch (e) {}
+    var go = function () { location.reload(); };
+    Promise.all(jobs).then(go, go);
+    setTimeout(go, 4000);
+    return;
+  }
+  var root = document.getElementById('oniko-app');
+  if (!root) return;
+  var box = root.querySelector('.oniko-boot') || root;
+  box.textContent = '';
+  var p = document.createElement('p');
+  p.className = 'msg';
+  p.textContent = 'Oniko Fit could not start (' + String(why && why.message || why || 'unknown error').slice(0, 200) + '). Reload the page. If it keeps happening, tell Noble.';
+  var b = document.createElement('button');
+  b.type = 'button'; b.className = 'btn primary'; b.textContent = 'Reload';
+  b.addEventListener('click', function () { try { sessionStorage.removeItem(K); } catch (e) {} location.reload(); });
+  box.appendChild(p); box.appendChild(b);
+};
+JS;
 }
 
 /* App page feels like an app: no admin toolbar there. */
