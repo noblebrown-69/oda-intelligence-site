@@ -7,7 +7,7 @@
 
   /* Must equal ONIKO_FIT_VERSION in oniko-fit.php (tests check). The app refuses to run with an
      engine from another release (a stale cached engine.js) and recovers instead. */
-  var VERSION = '1.0.4';
+  var VERSION = '1.0.5';
 
   var DB = [2, 3, 5, 8, 10, 12, 15, 17.5, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80];
   var MICRO = [

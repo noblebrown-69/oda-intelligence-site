@@ -10,7 +10,9 @@ const read = (p) => fs.readFileSync(path.join(root, p), 'utf8');
 const ENGINE = read('assets/engine.js'), APP = read('assets/app.js'), SW = read('assets/sw.js'), FRONT = read('includes/front.php');
 const PROGRAM = JSON.parse(read('data/program.json'));
 const VERSION = (read('oniko-fit.php').match(/define\('ONIKO_FIT_VERSION', '([^']+)'\)/) || [])[1];
-const HIST = JSON.parse(read('tests/fixtures/member-history-2026-11-25.json')).sessions;
+const HIST_REV2 = JSON.parse(read('tests/fixtures/member-history-2026-11-25.json')).sessions;
+const HIST_FIXED = JSON.parse(read('tests/fixtures/member-history-2026-11-25-fixed.json')).sessions;
+let HIST = HIST_REV2;
 const RECOVER = (FRONT.match(/<<<'JS'\n([\s\S]*?)\nJS;/) || [])[1];
 const AFTER = (FRONT.match(/wp_add_inline_script\('oniko-fit', '([^']+)', 'after'\)/) || [])[1];
 let pass = 0, fail = 0;
@@ -89,6 +91,32 @@ const stuck = (app) => app.textContent.trim() === 'Loading…';
     if (d === '2026-11-24') ok(pg.app.textContent.indexOf('Workout logged!') !== -1 && pg.app.textContent.indexOf('Gym A') !== -1, '11/24 shows logged Gym A');
     if (d === '2026-11-23') ok(pg.app.textContent.indexOf('Gym B') !== -1, '11/23 shows Gym B');
   }
+
+  // 1b. Every exercise logged on a day shows as a card / in the summary, even when it belongs to the
+  //     other workout letter (11/23 had bench + SLDL, 11/24 shoulder press + row). No side list.
+  const NAMES = { v_squat: 'Hammer V-Squat', iso_bench: 'Hammer Iso-Lateral Bench Press', iso_shoulder: 'Hammer Iso-Lateral Shoulder Press', iso_row: 'Hammer Iso-Lateral Row', db_sldl: 'Dumbbell Straight-Leg Deadlift' };
+  for (const [label, hist] of [['rev2', HIST_REV2], ['fixed', HIST_FIXED]]) {
+    HIST = hist;
+    for (const sess of hist) {
+      const pg = page({ search: '?d=' + sess.date }); run(pg); await settle();
+      const txt = pg.app.textContent;
+      const exs = [...new Set(sess.sets.map((x) => x.ex))];
+      ok(exs.every((ex) => txt.indexOf(NAMES[ex]) !== -1), label + ' ' + sess.date + ' summary shows every logged exercise (' + exs.join(', ') + ')');
+      ok(txt.indexOf('Also logged today') === -1, label + ' ' + sess.date + ' no "Also logged today" list');
+      // Edit view (log) too.
+      pg.win.OnikoApp.state.view = 'log'; pg.win.OnikoApp.render();
+      const t2 = pg.app.textContent;
+      ok(exs.every((ex) => t2.indexOf(NAMES[ex]) !== -1) && t2.indexOf('Also logged today') === -1, label + ' ' + sess.date + ' edit view shows every exercise as a card');
+    }
+  }
+  HIST = HIST_FIXED;
+  {
+    const pg = page(); run(pg); await settle();
+    ok(pg.win.OnikoApp.state.workout === 'A', 'fixed: after Tue 11/24 Gym B, today suggests Gym A (got ' + pg.win.OnikoApp.state.workout + ')');
+    let p2 = page({ search: '?d=2026-11-23' }); run(p2); await settle();
+    ok(/Gym A/.test(p2.app.textContent) && /From Workout B/.test((p2.win.OnikoApp.state.view = 'log', p2.win.OnikoApp.render(), p2.app.textContent)), 'fixed: 11/23 is Gym A, SLDL card marked From Workout B');
+  }
+  HIST = HIST_REV2;
 
   // 2. The 1.0.3 bug: stale cached engine (1.0.0 had no azToday and no VERSION) under new app.js.
   const stale = (E) => { delete E.azToday; delete E.VERSION; };

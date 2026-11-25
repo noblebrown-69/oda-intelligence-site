@@ -217,6 +217,7 @@
       h('h2', { text: def.name }),
       h('span', { class: 'plan', text: rng + (def.kind === 'level' ? ' reps' : ' reps') })
     ]));
+    if (item.from) card.appendChild(h('p', { class: 'muted small', text: 'From Workout ' + item.from + ', logged on this day.' }));
     if (item.learn) {
       var on = learnOn(item);
       card.appendChild(h('div', { class: 'learn' }, [
@@ -324,8 +325,25 @@
     return out;
   }
 
+  /* The day's exercise cards: the workout's own items, then any other exercise of this program that
+     has sets logged on this day (e.g. she did the other workout's press), so every logged exercise
+     shows as a normal card and in the summary instead of disappearing or sitting in a side list. */
+  function dayItems() {
+    var W = P.programs[st.program].workouts, items = W[st.workout].slice(), seen = {};
+    items.forEach(function (i) { seen[i.ex] = true; });
+    todaySets().forEach(function (s) {
+      if (seen[s.ex]) return;
+      for (var k in W) {
+        var hit = null;
+        W[k].forEach(function (i) { if (!hit && i.ex === s.ex) hit = i; });
+        if (hit) { var c = {}; for (var f in hit) c[f] = hit[f]; c.from = k; items.push(c); seen[s.ex] = true; return; }
+      }
+    });
+    return items;
+  }
+
   function otherSets() {
-    var items = P.programs[st.program].workouts[st.workout].map(function (i) { return i.ex; });
+    var items = dayItems().map(function (i) { return i.ex; });
     var other = todaySets().filter(function (s) { return items.indexOf(s.ex) === -1 || s.program !== st.program; }).filter(function (s) { return items.indexOf(s.ex) === -1; });
     if (!other.length) return null;
     return h('section', { class: 'card other' }, [
@@ -337,7 +355,7 @@
 
   function highlights() {
     var out = [];
-    P.programs[st.program].workouts[st.workout].forEach(function (item) {
+    dayItems().forEach(function (item) {
       var a = analyse(item);
       if (!a.work.length) return;
       if (a.cmp && a.cmp.text) out.push(a.def.name + ': ' + a.cmp.text);
@@ -368,7 +386,7 @@
   }
 
   function summary() {
-    var items = P.programs[st.program].workouts[st.workout];
+    var items = dayItems();
     var kids = [h('h2', { class: 'neon', text: 'Workout logged!' }),
       h('p', { class: 'lead', text: 'Great work. ' + P.programs[st.program].label + ' ' + st.workout + ' · ' + niceDate(st.date) })];
     if (st.result) kids.push(h('p', { class: 'muted small', text: st.result.mailed ? 'Sent to your coach bots.' : 'Saved. Your coach bots will pick it up shortly.' }));
@@ -405,7 +423,7 @@
       root.appendChild(picker());
       infoCards().forEach(function (c) { root.appendChild(c); });
       var o = otherSets(); if (o) root.appendChild(o);
-      P.programs[st.program].workouts[st.workout].forEach(function (it, i) { root.appendChild(exCard(it, i)); });
+      dayItems().forEach(function (it, i) { root.appendChild(exCard(it, i)); });
       root.appendChild(finishBox());
     }
     root.appendChild(h('footer', {}, [h('a', { href: CFG.logout, text: 'Sign out' })]));
